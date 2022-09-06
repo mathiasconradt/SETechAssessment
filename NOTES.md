@@ -379,5 +379,15 @@ via 1:1 feedback session
 ## What suggestions do you have on this process?
 via 1:1 feedback session
 
+This class mentioned on https://github.com/sysdiglabs/SETechAssessment:
+
+> Rancher 101 - https://community.suse.com/courses/4242073/content
+
+does not exist anymore (the link will just show the course description but no content is available anymore).
+
+Maybe this is the successor? It does have a different title though.
+https://community.suse.com/courses/5804003/content
+
+
 ## What tasks could be different or better?
 via 1:1 feedback session
