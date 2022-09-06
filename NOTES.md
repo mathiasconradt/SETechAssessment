@@ -204,9 +204,8 @@ Update: the notifications and events for the access key creation as well as logi
 ---
 
 ### Activity audit! Why's that valuable?
-Shows activity (grouped by activity type such as command execution, network activity, file operations, Kubernetes) in a timeline, which can be filtered further.
-Selecting any activity shows details of the event.
-The activity audit helps with reconstructing how a malicious actor might have compromised a system; collecting evidence and traces.
+Shows activity (grouped by activity type such as command execution, network activity, file operations, Kubernetes) in a timeline, which can be filtered further. Selecting any activity shows details of the event.
+The activity audit helps incident responders with reconstructing how a malicious actor might have compromised a system; collecting evidence and traces.
 
 ![[20220905235542.png]](img/20220905235542.png)
 
