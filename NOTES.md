@@ -252,7 +252,7 @@ The Sysdig Secure inline **"Getting Started"** guide does not complete (or it's 
   ![[20220905235624.png]](img/20220905235624.png)
 
 ---
-- **Sysdig Secure**: there is no way to delete old/unused resources (clean up) like cloud accounts, agents, etc. anymore from UI.
+- **Sysdig Secure**: there is no way to delete old/unused resources (clean up) like cloud accounts, agents, etc. from the UI.
   https://eu1.app.sysdig.com/secure/#/data-sources/agents
   https://eu1.app.sysdig.com/secure/#/data-sources/managed-kubernetes  
 
