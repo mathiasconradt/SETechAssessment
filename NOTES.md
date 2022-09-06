@@ -199,6 +199,8 @@ Looking into AWS CloudTrail, a `CreateAccessKey` event is logged though. I'm not
 
 ![[20220905230837.png]](img/20220905230837.png)
 
+Update: the notifications and events for the access key creation as well as login without MFA finally showed up, but a couple of hours later (about a full working day later).
+
 ---
 
 ### Activity audit! Why's that valuable?
