@@ -235,9 +235,11 @@ Noted.
 
 ## How can we get better?
 **- Training/Learn/Docs:**
-	- Training videos (training.sysdig.com) and docs (UI, Features) are not always aligned with actual UI/product, especially around **Admission Controller** and **Image Scanning**.
-	- Training videos (training.sysdig.com): they are grouped by years 2020-2022, however it's not clear which ones are actually still relevant, some videos appear under each year (would it make sense to delete irrelevant / outdated ones from previous years then?)
-	- Videos/sessions should be marked as "viewed" if they are re-used at different places and have already been watched
+- Training videos (training.sysdig.com) and docs (UI, Features) are not always aligned with actual UI/product, especially around **Admission Controller** and **Image Scanning**.
+
+- Training videos (training.sysdig.com): they are grouped by years 2020-2022, however it's not clear which ones are actually still relevant, some videos appear under each year (would it make sense to delete irrelevant / outdated ones from previous years then?)
+
+- Videos/sessions should be marked as "viewed" if they are re-used at different places and have already been watched
 
 **- User Management / Login:**
 - **User Invite**: it's not possible to invite other users that already have a Sysdig account (so a user cannot be part of multiple orgs / Sysdig accounts)
