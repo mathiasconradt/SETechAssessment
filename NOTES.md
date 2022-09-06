@@ -163,7 +163,7 @@ Events are shown and the Activity Audit also shows the activity (in this case: n
 
 ![[20220905221352.png]](img/20220905221352.png)
 
-This will already triggers right away when bashing into the container.
+This already triggers right away when bashing into the container.
 
 ```
 $ kubectl exec --namespace=vote -it result-86d8966d87-hw9xp /bin/bash
