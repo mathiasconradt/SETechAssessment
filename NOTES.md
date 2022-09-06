@@ -1,15 +1,14 @@
-These notes are work in progress while I walk through the SE Tech Assessment.
-
+These notes are work in progress as I walk through the SE Tech Assessment.
 
 # 1. Create Kubernetes cluster
 I created the cluster on AWS (EKS) via Terraform.
 
-![[Pasted image 20220906134512.png]]
+![[20220906134512.png]]
 
 # 2. Signup for a Sysdig Platform Trial
 Done, no further details.
 
-![[Pasted image 20220906134512.png]]
+![[20220906134512.png]]
 
 # 3. Install the Sysdig Agent(s)
 Installed "Secure for Cloud" via Terraform, sysdig-agent via Helm.
@@ -26,7 +25,7 @@ The following resource(s) failed to create: [CloudConnectorAppRunner].
 
 CloudConnectorAppRunner
 CREATE_FAILED
-Resource handler returned message: "null" (RequestToken: 625f9efa-c18f-ccd3-95d7-2e3e24cd8eba, HandlerErrorCode: null)
+Resource handler returned message: "null" (RequestToken: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX, HandlerErrorCode: null)
 ```
 
 Using the regular CF template did not complete within an hour (tried multiple times and in different regions), it was stuck with creating the CloudConnector-Substack, so I aborted/deleted the stack. Issue might be related to globally (cross-region) existing resources, but not 100% sure.
@@ -34,7 +33,7 @@ Terraform also kept failing at some point with `400 Bad Request` an error (terra
 
 Created a **new AWS account** and re-run via Terraform, worked without issues.
 
-![[Pasted image 20220906134512.png]]
+![[20220906134512.png]]
 
 # 4. Deploy sample app
 
@@ -64,7 +63,7 @@ Error from server (AlreadyExists): error when creating "k8s-specifications/vote-
 
 Solution: remove `k8s-specifications/vote-namespace.yml`
 
-![[Pasted image 20220906134512.png]]
+![[20220906134512.png]]
 
 # 5. Get Creative and build some stuff in Sysdig
 
@@ -106,7 +105,7 @@ $ SECURE_API_TOKEN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx ./sysdig-cli-scanner --a
 
 Type: dockerImage
 ImageID: sha256:28dc3586bffff9103943fd79d45db93f4ef4775e07319a702000d4761319e49d
-Digest: 
+Digest:
 BaseOS: debian 10.12
 PullString: example-voting-app-worker
 
@@ -130,10 +129,10 @@ Execution logs written to: /home/mconradt/Documents/sysdig/scan-logs
 ```
 
 Sysdig Best Practices Rule:
-![[Pasted image 20220905220850.png]]
+![[20220905220850.png]]
 
 Image scan results in the UI:
-![[Pasted image 20220905233940.png]]
+![[20220905233940.png]]
 
 ### Posture? What's up with those?
 
@@ -143,7 +142,7 @@ Checks the infrastructure, workloads, for compliance (CIS, NIST, SOC2, ISO27001,
 
 (1) I enabled a custom **Drift Detection** policy that triggers when an executable is run that wasn't originally part of the image/container, or when "top" is being run (I took this example from the training videos):
 
-![[Pasted image 20220905221900.png]]
+![[20220905221900.png]]
 
 In order to trigger the policy, I `bash` into a running container, install `curl` and run it.
 
@@ -156,13 +155,13 @@ $ curl http://example.com
 
 Events are shown and the Activity Audit also shows the activity (in this case: network activity, file operations as well as command executions).
 
-![[Pasted image 20220905221650.png]]
+![[20220905221650.png]]
 
-![[Pasted image 20220905221618.png]]
+![[20220905221618.png]]
 
 (2) I created a second custom **"Runtime Security in Container"** policy that alerts when a shell is spawn inside a container.
 
-![[Pasted image 20220905221352.png]]
+![[20220905221352.png]]
 
 This will already triggers right away when bashing into the container.
 
@@ -173,9 +172,9 @@ $ kubectl exec --namespace=vote -it result-86d8966d87-hw9xp /bin/bash
 
 (3) Enabled **"Sysdig Runtime Notable Events"** incl. **"Execution from /tmp"**:
 
-![[Pasted image 20220906001043.png]]
+![[20220906001043.png]]
 
-![[Pasted image 20220906001311.png]]
+![[20220906001311.png]]
 
 Triggering the policy via:
 
@@ -185,20 +184,20 @@ $ cp /bin/ls /tmp/
 $ /tmp/ls
 ```
 
-![[Pasted image 20220906001328.png]]
+![[20220906001328.png]]
 
 (4) I enabled standard policy **"Sysdig AWS Notable Events"** and then logged into the AWS Console with an account without MFA, however, this policy did not trigger.
 Not seeing it anywhere under "Events" nor "Insights" nor did I get an email notification (as enabled).
 
-![[Pasted image 20220905225718.png]]
+![[20220905225718.png]]
 
-The same happened (or did NOT happen actually) when creating an access key for that same user. 
+The same happened (or did NOT happen actually) when creating an access key for that same user.
 
-![[Pasted image 20220905225902.png]]
+![[20220905225902.png]]
 
 Looking into AWS CloudTrail, a `CreateAccessKey` event is logged though. I'm not sure yet what's missing.
 
-![[Pasted image 20220905230837.png]]
+![[20220905230837.png]]
 
 ---
 
@@ -207,7 +206,7 @@ Shows activity (grouped by activity type such as command execution, network acti
 Selecting any activity shows details of the event.
 The activity audit helps with reconstructing how a malicious actor might have compromised a system; collecting evidence and traces.
 
-![[Pasted image 20220905235542.png]]
+![[20220905235542.png]]
 
 ## Sysdig Monitor
 
@@ -219,18 +218,18 @@ To do.
 
 For now I picked a standard query from the PromQL library. Need to dive a bit deeper into Prometheus and pick metrics that make sense together.
 
-![[Pasted image 20220906134807.png]]
+![[20220906134807.png]]
 
 
 ### Add views to the dashboard that might be interesting to a user
 To do.
 
-![[Pasted image 20220906134512.png]]
+![[20220906134512.png]]
 
 # 6. Don't destroy your cluster! We'd like to look at it with you
 Noted.
 
-![[Pasted image 20220906134512.png]]
+![[20220906134512.png]]
 
 # 7. Feedback?
 
@@ -239,40 +238,40 @@ Noted.
 	- Training videos (training.sysdig.com) and docs (UI, Features) are not always aligned with actual UI/product, especially around **Admission Controller** and **Image Scanning**.
 	- Training videos (training.sysdig.com): they are grouped by years 2020-2022, however it's not clear which ones are actually still relevant, some videos appear under each year (would it make sense to delete irrelevant / outdated ones from previous years then?)
 	- Videos/sessions should be marked as "viewed" if they are re-used at different places and have already been watched
-	  
-**- User Management / Login:** 
+
+**- User Management / Login:**
 	- **User Invite**: it's not possible to invite other users that already have a Sysdig account (so a user cannot be part of multiple orgs / Sysdig accounts)
 	- **Login**: the region selector is a bit confusing, especially with the login not working for any region, but the Sysdig CLI only pointing to the generic (not region-specific endpoints). Might be better to have a central login that works across all regions and after the login happened, the proper redirection to the respective region and app happens.
-![[Pasted image 20220905234331.png]]
+![[20220905234331.png]]
 
 ---
-- **Getting Started** 
+- **Getting Started**
 The Sysdig Secure inline **"Getting Started"** guide does not complete (or it's unclear how to); sometimes tasks don't complete (sometimes they do), such as image scanning - have not found the pattern behind it yet
-  
-  ![[Pasted image 20220905235624.png]]
 
---- 
+  ![[20220905235624.png]]
+
+---
 - **Sysdig Secure**: there is no way to delete old/unused resources (clean up) like cloud accounts, agents, etc. anymore from UI.
   https://eu1.app.sysdig.com/secure/#/data-sources/agents
   https://eu1.app.sysdig.com/secure/#/data-sources/managed-kubernetes  
-  
-  ![[Pasted image 20220906003749.png]]
+
+  ![[20220906003749.png]]
 
 ---
 - **Sysdig Monitor**: Integrations section does not have a "Agents" list like Sysdig Secure has; would expect the same here as both also have the "Agent Installation" item.
-  
-  ![[Pasted image 20220906004134.png]]
+
+  ![[20220906004134.png]]
 ---
 - **Admission Controller: unclear how to enable it via UI and add an AC policy**
 
 The docs for the Adminission Controller as mentioned in the last step of the onboarding steps do not seem to be up to date. 
 
-For example on [https://docs.sysdig.com/en/docs/installation/admission-controller-installation/#admission-controller-installation](https://docs.sysdig.com/en/docs/installation/admission-controller-installation/#admission-controller-installation) it says to enable the Admission Controller in the "Sysdig Labs" profile settings, however, this option does not exist (current UI differs from screenshot shown in docs). 
+For example on [https://docs.sysdig.com/en/docs/installation/admission-controller-installation/#admission-controller-installation](https://docs.sysdig.com/en/docs/installation/admission-controller-installation/#admission-controller-installation) it says to enable the Admission Controller in the "Sysdig Labs" profile settings, however, this option does not exist (current UI differs from screenshot shown in docs).
 
 All I see is this, which looks different from the screenshot in above linked docs:
-![[Pasted image 20220906094837.png]]
-  
-Also the path mentioned in the docs: 
+![[20220906094837.png]]
+
+Also the path mentioned in the docs:
 
 > Log in to Sysdig Secure and select Image Scanning>Admission Controller|Policy Assignments." does not exist in the Sysdig Secure UI.
 
@@ -281,30 +280,30 @@ FYI - I had sent this issue before to support, who connected me with Stefan Gavr
 ---
 - **Sysdig Secure > Data Sources:** not clear why the AWS Account ID is not always shown
 
-![[Pasted image 20220905192645.png]]
+![[20220905192645.png]]
 
 Update (a day later): it seems that there is some delay having the AWS Account ID populated. I now see the AWS Account for above marked agents:
 
-![[Pasted image 20220906122909.png]]
+![[20220906122909.png]]
 
 ---
 - **Sysdig Secure > Network**: not all services in the cluster are shown in the UI:
 
-![[Pasted image 20220905212930.png]]
+![[20220905212930.png]]
 
 Same for Deployments:
 
-![[Pasted image 20220905213031.png]]
+![[20220905213031.png]]
 
 ---
 - **Sysdig Secure > Network:** the instructions on this screen are not very clear. Would be good to have a link to docs. What kind of labels? What should the `key:value` be?
 
-![[Pasted image 20220905230257.png]]
+![[20220905230257.png]]
 
---- 
+---
 - **Sysdig Secure > Get Started**: this link leads to a 404 / page not found:
 
-![[Pasted image 20220905234117.png]]
+![[20220905234117.png]]
 
 ---
 - **Sydig Secure > Insights: Not getting data**
@@ -313,9 +312,9 @@ I have a cloud account (AWS) connected as well as the managed Kubernetes cluster
 
 For testing purposes, today (Sep 6) I created and deleted a KMS key in the active AWS account and region, but this event is not being picked up. I only see an old Key Deletion of Aug 23, which happened in another AWS account that is not connected with Sysdig anymore.
 
-![[Pasted image 20220906103751.png]]
+![[20220906103751.png]]
 
-![[Pasted image 20220906104238.png]]
+![[20220906104238.png]]
 
 ---
 - **Sysdig Monitor > Explore > PromQL Query**
@@ -323,24 +322,24 @@ For testing purposes, today (Sep 6) I created and deleted a KMS key in the activ
 The "Create" button does not do anything, despite changing its color when hovering over it with the mouse. Both buttons have issues with mouse hovering though (Brave browser, Linux).
 I'd expect a submenu opening up due the three dots on the button, but nothing happens.
 
-![[Pasted image 20220906123743.png]]
+![[20220906123743.png]]
 ---
 - **Falco**: (Not related to any task for the example-voting-app, just something I stumbled across earlier on) I tried to build Falco / driver from source on Manjaro (my primary system), as no Arch-build is available, and wanted to deploy it on minikube. However, ran in an undocumented issue about a schema version. I checked the issues on Github, but while there were some around minikube, none mentioned this specific error message.
 
 ```
 Mon Aug 29 19:30:23 2022: Runtime error: Driver supports schema version 1.0.0, but running version needs 2.0.0. Exiting.
 ```
-  
+
 Detail:   
 ```
 * Looking for a falco module locally (kernel 5.19.1-3-MANJARO)
 * Trying to download a prebuilt falco module from https://download.falco.org/driver/2.0.0%2Bdriver/x86_64/falco_manjaro_5.19.1-3-MANJARO_1.ko
 [...]
 Consider compiling your own falco driver and loading it or getting in touch with the Falco community
-╭─mconradt@cathedral /home/mconradt/falco/build  ‹system›  <master> 
+╭─mconradt@cathedral /home/mconradt/falco/build  ‹system›  <master>
 ╰─$ sudo insmod driver/falco.ko                                                                                                      
 
-╭─mconradt@cathedral /home/mconradt/falco/build  ‹system›  <master> 
+╭─mconradt@cathedral /home/mconradt/falco/build  ‹system›  <master>
 ╰─$ minikube start --driver=virtualbox
 😄  minikube v1.26.1 on Arch 21.3.7
 🆕  Kubernetes 1.24.3 is now available. If you would like to upgrade, specify: --kubernetes-version=v1.24.3
@@ -352,7 +351,7 @@ Consider compiling your own falco driver and loading it or getting in touch with
 🔎  Verifying Kubernetes components...
 🌟  Enabled addons: storage-provisioner, default-storageclass
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
-╭─mconradt@cathedral /home/mconradt/falco/build  ‹system›  <master> 
+╭─mconradt@cathedral /home/mconradt/falco/build  ‹system›  <master>
 ╰─$ kubectl logs falco-l4tdp
 Defaulted container "falco" out of: falco, falco-driver-loader (init)
 Mon Aug 29 19:30:22 2022: Falco version 0.32.2
