@@ -241,8 +241,8 @@ Noted.
 
 **- User Management / Login:**
 - **User Invite**: it's not possible to invite other users that already have a Sysdig account (so a user cannot be part of multiple orgs / Sysdig accounts)
-  
- **Login**: the region selector is a bit confusing, especially with the login not working for any region, but the Sysdig CLI only pointing to the generic (not region-specific endpoints). Might be better to have a central login that works across all regions and after the login happened, the proper redirection to the respective region and app happens.
+
+- **Login**: the region selector is a bit confusing, especially with the login not working for any region, but the Sysdig CLI only pointing to the generic (not region-specific endpoints). Might be better to have a central login that works across all regions and after the login happened, the proper redirection to the respective region and app happens.
 ![[20220905234331.png]](img/20220905234331.png)
 
 ---
