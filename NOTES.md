@@ -319,6 +319,10 @@ For testing purposes, today (Sep 6) I created and deleted a KMS key in the activ
 
 ![[20220906104238.png]](img/20220906104238.png)
 
+Update (a couple of hours later): after waiting a couple of hours (a full working day), I now see the data of my active AWS Account in Insights. There seems to be a significant delay between event occurance and the data showing up in Sysdig.
+
+![[2022-09-06_20-13_1.png]](img/2022-09-06_20-13_1.png)
+
 ---
 - **Sysdig Monitor > Explore > PromQL Query**
 
