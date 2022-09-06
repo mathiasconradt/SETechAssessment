@@ -3,12 +3,12 @@ These notes are work in progress as I walk through the SE Tech Assessment.
 # 1. Create Kubernetes cluster
 I created the cluster on AWS (EKS) via Terraform.
 
-![[20220906134512.png]]
+![20220906134512.png](img/20220906134512.png)
 
 # 2. Signup for a Sysdig Platform Trial
 Done, no further details.
 
-![[20220906134512.png]]
+![[20220906134512.png]](img/20220906134512.png)
 
 # 3. Install the Sysdig Agent(s)
 Installed "Secure for Cloud" via Terraform, sysdig-agent via Helm.
@@ -33,7 +33,7 @@ Terraform also kept failing at some point with `400 Bad Request` an error (terra
 
 Created a **new AWS account** and re-run via Terraform, worked without issues.
 
-![[20220906134512.png]]
+![[20220906134512.png]](img/20220906134512.png)
 
 # 4. Deploy sample app
 
@@ -63,7 +63,7 @@ Error from server (AlreadyExists): error when creating "k8s-specifications/vote-
 
 Solution: remove `k8s-specifications/vote-namespace.yml`
 
-![[20220906134512.png]]
+![[20220906134512.png]](img/20220906134512.png)
 
 # 5. Get Creative and build some stuff in Sysdig
 
@@ -129,10 +129,10 @@ Execution logs written to: /home/mconradt/Documents/sysdig/scan-logs
 ```
 
 Sysdig Best Practices Rule:
-![[20220905220850.png]]
+![[20220905220850.png]](img/20220905220850.png)
 
 Image scan results in the UI:
-![[20220905233940.png]]
+![[20220905233940.png]](img/20220905233940.png)
 
 ### Posture? What's up with those?
 
@@ -142,7 +142,7 @@ Checks the infrastructure, workloads, for compliance (CIS, NIST, SOC2, ISO27001,
 
 (1) I enabled a custom **Drift Detection** policy that triggers when an executable is run that wasn't originally part of the image/container, or when "top" is being run (I took this example from the training videos):
 
-![[20220905221900.png]]
+![[20220905221900.png]](img/20220905221900.png)
 
 In order to trigger the policy, I `bash` into a running container, install `curl` and run it.
 
@@ -155,13 +155,13 @@ $ curl http://example.com
 
 Events are shown and the Activity Audit also shows the activity (in this case: network activity, file operations as well as command executions).
 
-![[20220905221650.png]]
+![[20220905221650.png]](img/20220905221650.png)
 
-![[20220905221618.png]]
+![[20220905221618.png]](img/20220905221618.png)
 
 (2) I created a second custom **"Runtime Security in Container"** policy that alerts when a shell is spawn inside a container.
 
-![[20220905221352.png]]
+![[20220905221352.png]](img/20220905221352.png)
 
 This will already triggers right away when bashing into the container.
 
@@ -172,9 +172,9 @@ $ kubectl exec --namespace=vote -it result-86d8966d87-hw9xp /bin/bash
 
 (3) Enabled **"Sysdig Runtime Notable Events"** incl. **"Execution from /tmp"**:
 
-![[20220906001043.png]]
+![[20220906001043.png]](img/20220906001043.png)
 
-![[20220906001311.png]]
+![[20220906001311.png]](img/20220906001311.png)
 
 Triggering the policy via:
 
@@ -184,20 +184,20 @@ $ cp /bin/ls /tmp/
 $ /tmp/ls
 ```
 
-![[20220906001328.png]]
+![[20220906001328.png]](img/20220906001328.png)
 
 (4) I enabled standard policy **"Sysdig AWS Notable Events"** and then logged into the AWS Console with an account without MFA, however, this policy did not trigger.
 Not seeing it anywhere under "Events" nor "Insights" nor did I get an email notification (as enabled).
 
-![[20220905225718.png]]
+![[20220905225718.png]](img/20220905225718.png)
 
 The same happened (or did NOT happen actually) when creating an access key for that same user.
 
-![[20220905225902.png]]
+![[20220905225902.png]](img/20220905225902.png)
 
 Looking into AWS CloudTrail, a `CreateAccessKey` event is logged though. I'm not sure yet what's missing.
 
-![[20220905230837.png]]
+![[20220905230837.png]](img/20220905230837.png)
 
 ---
 
@@ -206,7 +206,7 @@ Shows activity (grouped by activity type such as command execution, network acti
 Selecting any activity shows details of the event.
 The activity audit helps with reconstructing how a malicious actor might have compromised a system; collecting evidence and traces.
 
-![[20220905235542.png]]
+![[20220905235542.png]](img/20220905235542.png)
 
 ## Sysdig Monitor
 
@@ -218,18 +218,18 @@ To do.
 
 For now I picked a standard query from the PromQL library. Need to dive a bit deeper into Prometheus and pick metrics that make sense together.
 
-![[20220906134807.png]]
+![[20220906134807.png]](img/20220906134807.png)
 
 
 ### Add views to the dashboard that might be interesting to a user
 To do.
 
-![[20220906134512.png]]
+![[20220906134512.png]](img/20220906134512.png)
 
 # 6. Don't destroy your cluster! We'd like to look at it with you
 Noted.
 
-![[20220906134512.png]]
+![[20220906134512.png]](img/20220906134512.png)
 
 # 7. Feedback?
 
@@ -242,25 +242,25 @@ Noted.
 **- User Management / Login:**
 	- **User Invite**: it's not possible to invite other users that already have a Sysdig account (so a user cannot be part of multiple orgs / Sysdig accounts)
 	- **Login**: the region selector is a bit confusing, especially with the login not working for any region, but the Sysdig CLI only pointing to the generic (not region-specific endpoints). Might be better to have a central login that works across all regions and after the login happened, the proper redirection to the respective region and app happens.
-![[20220905234331.png]]
+![[20220905234331.png]](img/20220905234331.png)
 
 ---
 - **Getting Started**
 The Sysdig Secure inline **"Getting Started"** guide does not complete (or it's unclear how to); sometimes tasks don't complete (sometimes they do), such as image scanning - have not found the pattern behind it yet
 
-  ![[20220905235624.png]]
+  ![[20220905235624.png]](img/20220905235624.png)
 
 ---
 - **Sysdig Secure**: there is no way to delete old/unused resources (clean up) like cloud accounts, agents, etc. anymore from UI.
   https://eu1.app.sysdig.com/secure/#/data-sources/agents
   https://eu1.app.sysdig.com/secure/#/data-sources/managed-kubernetes  
 
-  ![[20220906003749.png]]
+  ![[20220906003749.png]](img/20220906003749.png)
 
 ---
 - **Sysdig Monitor**: Integrations section does not have a "Agents" list like Sysdig Secure has; would expect the same here as both also have the "Agent Installation" item.
 
-  ![[20220906004134.png]]
+  ![[20220906004134.png]](img/20220906004134.png)
 ---
 - **Admission Controller: unclear how to enable it via UI and add an AC policy**
 
@@ -269,7 +269,7 @@ The docs for the Adminission Controller as mentioned in the last step of the onb
 For example on [https://docs.sysdig.com/en/docs/installation/admission-controller-installation/#admission-controller-installation](https://docs.sysdig.com/en/docs/installation/admission-controller-installation/#admission-controller-installation) it says to enable the Admission Controller in the "Sysdig Labs" profile settings, however, this option does not exist (current UI differs from screenshot shown in docs).
 
 All I see is this, which looks different from the screenshot in above linked docs:
-![[20220906094837.png]]
+![[20220906094837.png]](img/20220906094837.png)
 
 Also the path mentioned in the docs:
 
@@ -280,30 +280,30 @@ FYI - I had sent this issue before to support, who connected me with Stefan Gavr
 ---
 - **Sysdig Secure > Data Sources:** not clear why the AWS Account ID is not always shown
 
-![[20220905192645.png]]
+![[20220905192645.png]](img/20220905192645.png)
 
 Update (a day later): it seems that there is some delay having the AWS Account ID populated. I now see the AWS Account for above marked agents:
 
-![[20220906122909.png]]
+![[20220906122909.png]](img/20220906122909.png)
 
 ---
 - **Sysdig Secure > Network**: not all services in the cluster are shown in the UI:
 
-![[20220905212930.png]]
+![[20220905212930.png]](img/20220905212930.png)
 
 Same for Deployments:
 
-![[20220905213031.png]]
+![[20220905213031.png]](img/20220905213031.png)
 
 ---
 - **Sysdig Secure > Network:** the instructions on this screen are not very clear. Would be good to have a link to docs. What kind of labels? What should the `key:value` be?
 
-![[20220905230257.png]]
+![[20220905230257.png]](img/20220905230257.png)
 
 ---
 - **Sysdig Secure > Get Started**: this link leads to a 404 / page not found:
 
-![[20220905234117.png]]
+![[20220905234117.png]](img/20220905234117.png)
 
 ---
 - **Sydig Secure > Insights: Not getting data**
@@ -312,9 +312,9 @@ I have a cloud account (AWS) connected as well as the managed Kubernetes cluster
 
 For testing purposes, today (Sep 6) I created and deleted a KMS key in the active AWS account and region, but this event is not being picked up. I only see an old Key Deletion of Aug 23, which happened in another AWS account that is not connected with Sysdig anymore.
 
-![[20220906103751.png]]
+![[20220906103751.png]](img/20220906103751.png)
 
-![[20220906104238.png]]
+![[20220906104238.png]](img/20220906104238.png)
 
 ---
 - **Sysdig Monitor > Explore > PromQL Query**
@@ -322,7 +322,7 @@ For testing purposes, today (Sep 6) I created and deleted a KMS key in the activ
 The "Create" button does not do anything, despite changing its color when hovering over it with the mouse. Both buttons have issues with mouse hovering though (Brave browser, Linux).
 I'd expect a submenu opening up due the three dots on the button, but nothing happens.
 
-![[20220906123743.png]]
+![[20220906123743.png]](img/20220906123743.png)
 ---
 - **Falco**: (Not related to any task for the example-voting-app, just something I stumbled across earlier on) I tried to build Falco / driver from source on Manjaro (my primary system), as no Arch-build is available, and wanted to deploy it on minikube. However, ran in an undocumented issue about a schema version. I checked the issues on Github, but while there were some around minikube, none mentioned this specific error message.
 
