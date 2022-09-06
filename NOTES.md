@@ -13,7 +13,7 @@ Done, no further details.
 # 3. Install the Sysdig Agent(s)
 Installed "Secure for Cloud" via Terraform, sysdig-agent via Helm.
 
-Issues: I did have some issues trying to deploy "Secure for Cloud" via Cloudformation (regular and lightweight template using AppRunner) on my existing AWS account:
+Issues: I did have some issues trying to deploy "Secure for Cloud" via Cloudformation (regular as well as the lightweight template using AppRunner) on my existing AWS account:
 
 Lightweight AppRunner Deployment:
 ```
@@ -28,7 +28,7 @@ CREATE_FAILED
 Resource handler returned message: "null" (RequestToken: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX, HandlerErrorCode: null)
 ```
 
-Using the regular CF template did not complete within an hour (tried multiple times and in different regions), it was stuck with creating the CloudConnector-Substack, so I aborted/deleted the stack. Issue might be related to globally (cross-region) existing resources, but not 100% sure.
+Using the regular (non-AppRunner) CF template did not complete within an hour (tried multiple times and in different regions), it was stuck with creating the CloudConnector-Substack, so I aborted/deleted the stack. Issue might be related to globally (cross-region) existing resources, but not 100% sure.
 Terraform also kept failing at some point with `400 Bad Request` an error (terraform logs with log level `trace` are available).
 
 Created a **new AWS account** and re-run via Terraform, worked without issues.
@@ -308,7 +308,7 @@ Same for Deployments:
 ---
 - **Sydig Secure > Insights: Not getting data**
 
-I have a cloud account (AWS) connected as well as the managed Kubernetes cluster  and agents show as active in Sysdig > Integrations > Data Sources, but still the Insights > Cloud Activity shows as "Paused" in the bottom bar and only shows old data of a meanwhile disconnected AWS account, but no data of the currently connected AWS account.
+I have a cloud account (AWS) connected, as well as the managed Kubernetes cluster and agents showing as active in Sysdig > Integrations > Data Sources, but still the Insights > Cloud Activity shows as "Paused" in the bottom bar and only shows old data of a meanwhile disconnected AWS account (AWS Account ID 992674152027), but no data of my actual currently connected AWS account (AWS Account ID 452685815011).
 
 For testing purposes, today (Sep 6) I created and deleted a KMS key in the active AWS account and region, but this event is not being picked up. I only see an old Key Deletion of Aug 23, which happened in another AWS account that is not connected with Sysdig anymore.
 
@@ -323,6 +323,7 @@ The "Create" button does not do anything, despite changing its color when hoveri
 I'd expect a submenu opening up due the three dots on the button, but nothing happens.
 
 ![[20220906123743.png]](img/20220906123743.png)
+
 ---
 - **Falco**: (Not related to any task for the example-voting-app, just something I stumbled across earlier on) I tried to build Falco / driver from source on Manjaro (my primary system), as no Arch-build is available, and wanted to deploy it on minikube. However, ran in an undocumented issue about a schema version. I checked the issues on Github, but while there were some around minikube, none mentioned this specific error message.
 
