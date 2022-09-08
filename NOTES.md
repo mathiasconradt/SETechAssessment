@@ -138,6 +138,10 @@ Image scan results in the UI:
 
 Checks the infrastructure, workloads, for compliance (CIS, NIST, SOC2, ISO27001, etc.)
 
+![[2022-09-08_22-26.png]](img/2022-09-08_22-26.png)
+
+![[2022-09-08_22-26_1.png]](img/2022-09-08_22-26_1.png)
+
 ### Enable Runtime Policies, generate some noise (how might you do that?)
 
 (1) I enabled a custom **Drift Detection** policy that triggers when an executable is run that wasn't originally part of the image/container, or when "top" is being run (I took this example from the training videos):
@@ -185,6 +189,8 @@ $ /tmp/ls
 ```
 
 ![[20220906001328.png]](img/20220906001328.png)
+
+![[2022-09-08_22-37.png]](img/2022-09-08_22-37.png)
 
 (4) I enabled standard policy **"Sysdig AWS Notable Events"** and then logged into the AWS Console with an account without MFA, however, this policy did not trigger.
 Not seeing it anywhere under "Events" nor "Insights" nor did I get an email notification (as enabled).
